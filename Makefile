@@ -5,11 +5,12 @@ tag=jessie
 imageName=$(vendor)/$(name)
 
 build: Dockerfile
-	docker build --rm -t $(imageName):$(tag) .
-	docker tag $(imageName):$(tag) $(imageName):latest
+	@docker pull debian:jessie
+	@docker build --rm -t $(imageName):$(tag) .
+	@docker tag -f $(imageName):$(tag) $(imageName):latest
 
 ubuild: update build
 
 update: Dockerfile
-	sed -i 's/# update_[0-9]*/# update_$(ts)/' Dockerfile
+	@sed -i 's/# update_[0-9]*/# update_$(ts)/' Dockerfile
 
